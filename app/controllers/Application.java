@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.TreeSet;
 
@@ -9,9 +8,15 @@ import models.Message;
 import models.Response;
 import models.Result;
 import models.Status;
+import play.data.validation.Error;
+import play.data.validation.Valid;
+import play.libs.WS;
+import play.mvc.Before;
+import play.mvc.Controller;
+import ua_parser.Client;
+import ua_parser.Parser;
+import util.Listener;
 
-import com.hazelcast.core.EntryEvent;
-import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
@@ -19,18 +24,6 @@ import com.hazelcast.core.IdGenerator;
 import com.hazelcast.query.EntryObject;
 import com.hazelcast.query.Predicate;
 import com.hazelcast.query.PredicateBuilder;
-
-import play.data.validation.Error;
-import play.data.validation.Valid;
-import play.jobs.OnApplicationStart;
-import play.libs.WS;
-import play.libs.F.EventStream;
-import play.mvc.Before;
-import play.mvc.Controller;
-import play.mvc.Util;
-import ua_parser.Client;
-import ua_parser.Parser;
-import util.Listener;
 
 public class Application extends Controller
 {

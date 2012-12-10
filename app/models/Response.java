@@ -1,7 +1,5 @@
 package models;
 
-import java.io.Serializable;
-
 import play.data.validation.Required;
 
 public class Response implements Message

@@ -3,15 +3,13 @@ package util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import play.Logger;
 import play.PlayPlugin;
-import play.data.binding.As;
 import play.data.binding.RootParamNode;
 import play.mvc.Http;
 import play.mvc.Scope;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class BinderPlugin extends PlayPlugin
 {
