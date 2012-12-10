@@ -2,3 +2,11 @@
 
 require:
     - play
+    - local-jar -> hazelcast 2.4
+
+repositories:
+    - local-jar:
+        type: local
+        artifact: "${application.path}/jar/[module]-[revision].jar"
+        contains:
+           - local-jar -> *
