@@ -1,12 +1,9 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
-
 # Home page
-GET     /                                       Application.index
+GET		/                                   	    Application.index
+GET		/{token}									Application.get
+POST	/{token}/commands							Application.postCommand
+POST	/{token}/responses							Application.postResponse
 
-GET		/get/{token}							Application.get
-GET		/post/{token}/{msg}						Application.post
 
 # Map static resources from the /app/public folder to the /public path
-GET     /public/                                staticDir:public
+GET		/public/									staticDir:public

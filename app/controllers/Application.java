@@ -1,10 +1,14 @@
 package controllers;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.TreeSet;
 
 import models.Command;
+import models.Message;
+import models.Response;
 import models.Result;
+import models.Status;
 
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryListener;
@@ -16,14 +20,27 @@ import com.hazelcast.query.EntryObject;
 import com.hazelcast.query.Predicate;
 import com.hazelcast.query.PredicateBuilder;
 
+import play.data.validation.Error;
+import play.data.validation.Valid;
+import play.jobs.OnApplicationStart;
+import play.libs.WS;
 import play.libs.F.EventStream;
+import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Util;
+import ua_parser.Client;
+import ua_parser.Parser;
 import util.Listener;
 
 public class Application extends Controller
 {
 	private static HazelcastInstance hazel = Hazelcast.newHazelcastInstance(null);
+	private static Parser uaParser;
+	
+	static
+	{
+		uaParser = new Parser(WS.url("https://raw.github.com/tobie/ua-parser/master/regexes.yaml").get().getStream());
+	}
 	
     public static void index()
     {
@@ -33,41 +50,76 @@ public class Application extends Controller
     public static void get(String token, String lastId)
     {
     	Result result = new Result();
-    	IMap<Long, Command> map = hazel.getMap(token);
+    	IMap<Long, Message> map = hazel.getMap(token);
 		if (lastId != null)
 		{
 			EntryObject e = new PredicateBuilder().getEntryObject();
 			Predicate predicate = e.get("id").greaterThan(lastId);
 			
-			TreeSet<Command> messages = new TreeSet<>(map.values(predicate));
+			TreeSet<Message> messages = new TreeSet<>(map.values(predicate));
 			if (messages.size() > 0)
 			{
-				result.commands.addAll(messages);
-				result.lastId = messages.last().id;
+				result.messages.addAll(messages);
+				result.lastId = messages.last().getId();
 				renderJSON(result);
 			}
 		}
 		
-		Listener<Command> listener = new Listener<>();
+		Listener<Message> listener = new Listener<>();
 		map.addEntryListener(listener, true);
 		
-		Command message = await(listener.stream.nextEvent());
+		Message message = await(listener.stream.nextEvent());
 		map.removeEntryListener(listener);
 		
-		result.commands.add(message);
-		result.lastId = message.id;
+		result.messages.add(message);
+		result.lastId = message.getId();
 		
     	renderJSON(result);
     }
     
-    public static void post(String token, String msg)
+    public static void postCommand(String token, @Valid Command json)
     {
     	IdGenerator idg = hazel.getIdGenerator("id");
 		Long id = idg.newId();
 		
-	    IMap<Long, Command> map = hazel.getMap(token);
-	    map.put(id, new Command(id, msg));
+	    IMap<Long, Message> map = hazel.getMap(token);
+	    map.put(id, new Command(id, json.command));
+	    
+    	renderJSON(new Status("ok"));
+    }
+    
+    public static void postResponse(String token, @Valid Response json)
+    {
+    	IdGenerator idg = hazel.getIdGenerator("id");
+		Long id = idg.newId();
+		
+	    IMap<Long, Message> map = hazel.getMap(token);
+	    Client client = uaParser.parse(request.headers.get("user-agent").value());
+	    String browser = client.userAgent.family + " " + client.userAgent.major;
+	    
+	    map.put(id, new Response(id, json.forId, json.response, browser));
 	    
     	renderJSON("ok");
+    }
+    
+    @Before
+    static void performValidation()
+    {
+    	if (validation.hasErrors())
+    	{
+			HashMap<String, String> errors = new HashMap<>();
+    		for (Error error : validation.errors())
+    		{
+    			String field = error.getKey();
+    			int index = field.indexOf(".");
+    			if (index == -1)
+    				continue;
+    			field = field.substring(index+1);
+    			
+    			errors.put(field, error.message()); 
+    		}
+    		response.status = 400;
+    		renderJSON(new Status("bad request", errors));
+    	}
     }
 }

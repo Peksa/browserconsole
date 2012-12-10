@@ -4,16 +4,21 @@ import java.io.Serializable;
 
 import play.data.validation.Required;
 
-public class Command implements Message
+public class Response implements Message
 {
 	private Long id;
 	@Required
-	public String command;
+	public Long forId;
+	@Required
+	public String response;
+	public String browser;
 	
-	public Command(long id, String command)
+	public Response(Long id, Long forId, String response, String browser)
 	{
 		this.id = id;
-		this.command = command;
+		this.forId = forId;
+		this.response = response;
+		this.browser = browser;
 	}
 
 	@Override
