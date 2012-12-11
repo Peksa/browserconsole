@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.TreeSet;
 
@@ -29,7 +30,15 @@ public class Application extends Controller
 	
 	static
 	{
-		uaParser = new Parser(WS.url("https://raw.github.com/tobie/ua-parser/master/regexes.yaml").get().getStream());
+		try {
+			new Parser(WS.url("https://raw.github.com/tobie/ua-parser/master/regexes.yaml").get().getStream());
+		} catch (Exception e) {
+			try {
+				uaParser = new Parser();
+			} catch (IOException ex) {
+				// oh well...
+			}
+		}
 	}
 	
     public static void index()

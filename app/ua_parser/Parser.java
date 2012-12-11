@@ -34,7 +34,7 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
  */
 public class Parser {
 
-  private static final String REGEX_YAML_PATH = "/ua_parser/regexes.yaml";
+  private static final String REGEX_YAML_PATH = "/regexes.yaml";
   private UserAgentParser uaParser;
   private OSParser osParser;
   private DeviceParser deviceParser;
