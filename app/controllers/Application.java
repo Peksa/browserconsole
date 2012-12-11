@@ -3,16 +3,13 @@ package controllers;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-import models.Command;
 import models.Message;
-import models.Response;
 import models.Result;
 import models.Status;
 import play.data.validation.Error;
-import play.data.validation.Valid;
 import play.libs.WS;
-import play.mvc.Before;
 import play.mvc.Controller;
+import play.mvc.Util;
 import ua_parser.Client;
 import ua_parser.Parser;
 import util.Listener;
@@ -44,7 +41,7 @@ public class Application extends Controller
     {
     	Result result = new Result();
     	IMap<Long, Message> map = hazel.getMap(token);
-		if (lastId != null)
+		if (lastId != null && !"".equals(lastId))
 		{
 			EntryObject e = new PredicateBuilder().getEntryObject();
 			Predicate predicate = e.get("id").greaterThan(lastId);
@@ -53,7 +50,7 @@ public class Application extends Controller
 			if (messages.size() > 0)
 			{
 				result.messages.addAll(messages);
-				result.lastId = messages.last().getId();
+				result.lastId = messages.last().id;
 				renderJSON(result);
 			}
 		}
@@ -65,24 +62,31 @@ public class Application extends Controller
 		map.removeEntryListener(listener);
 		
 		result.messages.add(message);
-		result.lastId = message.getId();
+		result.lastId = message.id;
 		
     	renderJSON(result);
     }
     
-    public static void postCommand(String token, @Valid Command json)
+    public static void postCommand(String token, Message json)
     {
+    	validation.required("command", json);
+    	performValidation();
+    	
     	IdGenerator idg = hazel.getIdGenerator("id");
 		Long id = idg.newId();
 		
 	    IMap<Long, Message> map = hazel.getMap(token);
-	    map.put(id, new Command(id, json.command));
+	    map.put(id, new Message(id, json.command));
 	    
     	renderJSON(new Status("ok"));
     }
     
-    public static void postResponse(String token, @Valid Response json)
+    public static void postResponse(String token, Message json)
     {
+    	validation.required("forId", json);
+    	validation.required("response", json);
+    	performValidation();
+    	
     	IdGenerator idg = hazel.getIdGenerator("id");
 		Long id = idg.newId();
 		
@@ -90,13 +94,13 @@ public class Application extends Controller
 	    Client client = uaParser.parse(request.headers.get("user-agent").value());
 	    String browser = client.userAgent.family + " " + client.userAgent.major;
 	    
-	    map.put(id, new Response(id, json.forId, json.response, browser));
+	    map.put(id, new Message(id, json.forId, json.response, browser));
 	    
-    	renderJSON("ok");
+	    renderJSON(new Status("ok"));
     }
     
-    @Before
-    static void performValidation()
+    @Util
+    private static void performValidation()
     {
     	if (validation.hasErrors())
     	{

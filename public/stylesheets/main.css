@@ -30,3 +30,8 @@ div#terminal
 	margin: 0 auto 0;
 	padding: 15px;
 }
+
+.prompt
+{
+	color: #d8b2ff;
+}
