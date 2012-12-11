@@ -28,7 +28,8 @@ var Browserconsole = {
 		lastId: null
 	},
 	term: null,
-	url: "/sup",
+	token: null,
+	url: "/",
 	timeout: 50000,
 	wait: 50,
 	
@@ -40,7 +41,7 @@ var Browserconsole = {
 	refresh: function() {
 		_this = this;
 		this.req = $.ajax({
-			url: _this.url,
+			url: _this.url + _this.token,
 			timeout: this.timeout,
 			data: _this.context
 		}).done(function(data) {
@@ -100,9 +101,7 @@ var Browserconsole = {
 	run: function(message) {
 		try {
         	var result = window.eval(message.command);
-        	if (result !== undefined) {
-        		this.postResponse(new String(result), message.id);
-        	}
+        	this.postResponse(new String(result), message.id);
 		} catch (e) {
 			this.postResponse(new String(e), message.id);
 		}
@@ -110,7 +109,7 @@ var Browserconsole = {
 	
 	postResponse: function(response, forId) {
 		$.ajax({
-			url: this.url + "/responses",
+			url: this.url + this.token + "/responses",
 			data: JSON.stringify({ 
 				response: new String(response),
 				forId: forId
@@ -124,7 +123,7 @@ var Browserconsole = {
 		if (!data) return;
 		var _this = this;
 		$.ajax({
-			url: _this.url + "/commands",
+			url: _this.url + _this.token + "/commands",
 			data: JSON.stringify({ 
 				command: data
 			}),
@@ -140,6 +139,7 @@ var Browserconsole = {
 	},
 	
 	init: function() {
+		this.initHash();
 		this.initTerminal();
 		this.abort();
 		this.context.lastId = null;
@@ -149,6 +149,22 @@ var Browserconsole = {
 	initTerminal: function() {
 		var boundParseCommand = this.parseCommand.bind(this);
 		this.term = $('#terminal').terminal(boundParseCommand, this.terminalSettings);
+	},
+	
+	initHash: function() {
+		if (!location.hash) {
+			this.token = this.generateRandomToken();
+			location.hash = "#" + this.token;
+		} else {
+			this.token = location.hash.substring(1);
+		}
+	},
+	
+	generateRandomToken: function() {
+		return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+		    return v.toString(16);
+		});
 	},
 	
 	stop: function() {
