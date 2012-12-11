@@ -67,6 +67,8 @@ var Browserconsole = {
 			color = "#8cf";
 		} else if (/chrome/i.test(message.browser)) {
 			color = "#7d5";
+		} else {
+			color = "#fff";
 		}
 			
 		this.term.echo("[[;" + color + ";#333]" + message.browser + ": " + message.response + "]");
