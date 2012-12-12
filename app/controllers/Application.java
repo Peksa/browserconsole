@@ -10,6 +10,7 @@ import models.Status;
 import play.data.validation.Error;
 import play.libs.WS;
 import play.mvc.Controller;
+import play.mvc.Http.Header;
 import play.mvc.Util;
 import ua_parser.Client;
 import ua_parser.Parser;
@@ -31,7 +32,7 @@ public class Application extends Controller
 	static
 	{
 		try {
-			new Parser(WS.url("https://raw.github.com/tobie/ua-parser/master/regexes.yaml").get().getStream());
+			uaParser = new Parser(WS.url("https://raw.github.com/tobie/ua-parser/master/regexes.yaml").get().getStream());
 		} catch (Exception e) {
 			try {
 				uaParser = new Parser();
@@ -100,8 +101,16 @@ public class Application extends Controller
 		Long id = idg.newId();
 		
 	    IMap<Long, Message> map = hazel.getMap(token);
-	    Client client = uaParser.parse(request.headers.get("user-agent").value());
-	    String browser = client.userAgent.family + " " + client.userAgent.major;
+	    Header ua = request.headers.get("user-agent");
+	    if (ua == null)
+	    	ua = request.headers.get("http_user_agent");
+	    
+	    String browser = "unknown browser";
+	    if (ua != null)
+	    {
+	    	Client client = uaParser.parse(ua.value());
+	    	browser = client.userAgent.family + " " + client.userAgent.major;
+	    }
 	    
 	    map.put(id, new Message(id, json.forId, json.response, browser));
 	    

@@ -30,7 +30,7 @@ var Browserconsole = {
 	term: null,
 	token: null,
 	url: "/",
-	timeout: 50000,
+	timeout: 20000,
 	wait: 50,
 	
 	terminalSettings: {

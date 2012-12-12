@@ -13,7 +13,7 @@ import com.google.gson.GsonBuilder;
 
 public class BinderPlugin extends PlayPlugin
 {
-	public final static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	public final static Gson gson = new GsonBuilder().create();
 	@Override
 	public Object bind(RootParamNode parentParamNode, String name, Class<?> clazz, Type type, Annotation[] annotations)
 	{
