@@ -91,6 +91,10 @@ var Browserconsole = {
 			color = "#8cf";
 		} else if (/chrome/i.test(message.browser)) {
 			color = "#7d5";
+		} else if (/opera/i.test(message.browser)) {
+			color = "#f66";
+		} else if (/safari/i.test(message.browser)) {
+			color = "#bcd";
 		} else {
 			color = "#fff";
 		}
