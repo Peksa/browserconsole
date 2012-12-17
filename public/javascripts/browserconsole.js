@@ -156,11 +156,12 @@ var Browserconsole = {
 	},
 	
 	initHash: function() {
-		if (!location.hash) {
+		if (location.hash && /^#[a-z0-9]{32}$/.test(location.hash)) {
+			this.token = location.hash.substring(1);
+			
+		} else {
 			this.token = this.generateRandomToken();
 			location.hash = "#" + this.token;
-		} else {
-			this.token = location.hash.substring(1);
 		}
 	},
 	
