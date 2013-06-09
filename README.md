@@ -1,18 +1,18 @@
-# Browserconsole
-==============
+Browserconsole
+================
 
 Browserconsole is a [Play! framework 1.x](http://www.playframework.org/) application that allows you to test
 pieces of JavaScript snippets in multiple browsers and return the result to one of the browsers in real-time.
 
 ![Screenshot](https://dl.dropbox.com/u/12279637/browserconsole.png)
 
-# Demo
-==============
+Demo
+----
 Try it yourself at [browserconsole.com](http://browserconsole.com). Open the same URL in a different browser
 and try typing some JavaScript.
 
-# Run it yourself
-==============
+Run it yourself
+---------------
 If you'd like to host or run the entire application yourself, you're welcome to do so.
 
 1. Install JDK 1.7
