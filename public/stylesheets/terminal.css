@@ -46,45 +46,45 @@
 
 @keyframes blink {
   0%, 100% {
-    background-color: #000;
+    background-color: #333;
     color: #aaa;
   }
   50% {
     background-color: #bbb; /* not #aaa because it's seem there is Google Chrome bug */
-    color: #000;
+    color: #333;
   }
 }
 
 @-webkit-keyframes blink {
   0%, 100% {
-    background-color: #000;
+    background-color: #333;
     color: #aaa;
   }
   50% {
     background-color: #bbb;
-    color: #000;
+    color: #333;
   }
 }
 
 @-ms-keyframes blink {
   0%, 100% {
-    background-color: #000;
+    background-color: #333;
     color: #aaa;
   }
   50% {
     background-color: #bbb;
-    color: #000;
+    color: #333;
   }
 }
 
 @-moz-keyframes blink {
   0%, 100% {
-    background-color: #000;
+    background-color: #333;
     color: #aaa;
   }
   50% {
     background-color: #bbb;
-    color: #000;
+    color: #333;
   }
 }
 
@@ -101,7 +101,7 @@
 .terminal, .cmd {
   font-family: FreeMono, monospace;
   color: #aaa;
-  background-color: #000;
+  background-color: #333;
   font-size: 14px;
   line-height: 14px;
 }
