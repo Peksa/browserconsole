@@ -41,8 +41,8 @@ var bconsole = {
   },
 
   parseAll: function(messages) {
-    for (key in messages) {
-      bconsole.parseOne(messages[key]);
+    for (var i = 0; i < messages.length; i++) {
+      bconsole.parseOne(messages[i]);
     }
   },
 
@@ -55,6 +55,7 @@ var bconsole = {
   },
 
   echo: function(message) {
+    var color;
     if (/firefox/i.test(message.browser)) {
       color = "#f96";
     } else if (/ie/i.test(message.browser)) {
@@ -84,10 +85,10 @@ var bconsole = {
   postResponse: function(response, forId) {
     $.ajax({
       url: bconsole.url + "/response/ " + bconsole.token,
-      data: JSON.stringify({
+      data: {
         response: response + "",
         forId: forId
-      }),
+      },
       type: 'POST',
       contentType: 'application/json'
     });
@@ -97,9 +98,9 @@ var bconsole = {
     if (!data) return;
     $.ajax({
       url: bconsole.url + "/request/" + bconsole.token,
-      data: JSON.stringify({
+      data: {
         command: data
-      }),
+      },
       type: 'POST',
       contentType: 'application/json'
     });
