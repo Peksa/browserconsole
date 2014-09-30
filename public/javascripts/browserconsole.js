@@ -125,7 +125,7 @@ var bconsole = {
   },
 
   initHash: function() {
-    if (location.hash && /^#[a-z0-9]{32}$/.test(location.hash)) {
+    if (location.hash && /^#[a-z0-9]{12}$/.test(location.hash)) {
       bconsole.token = location.hash.substring(1);
 
     } else {
@@ -135,7 +135,7 @@ var bconsole = {
   },
 
   generateRandomToken: function() {
-    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
