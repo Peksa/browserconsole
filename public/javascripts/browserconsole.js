@@ -1,29 +1,4 @@
-if (!Function.prototype.bind) {
-  Function.prototype.bind = function(oThis) {
-    if (typeof this !== "function") {
-      // closest thing possible to the ECMAScript 5 internal IsCallable function
-      throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-    }
-
-    var aArgs = Array.prototype.slice.call(arguments, 1),
-    fToBind = this,
-    fNOP = function() {
-    },
-    fBound = function() {
-      return fToBind.apply(this instanceof fNOP && oThis
-      ? this
-      : oThis,
-      aArgs.concat(Array.prototype.slice.call(arguments)));
-    };
-
-    fNOP.prototype = this.prototype;
-    fBound.prototype = new fNOP();
-
-    return fBound;
-  };
-}
-
-var Browserconsole = {
+var bconsole = {
   req: null,
   context: {
     lastId: null
@@ -40,48 +15,42 @@ var Browserconsole = {
   },
 
   refresh: function() {
-    _this = this;
-    this.req = $.ajax({
-      url: _this.url + _this.token,
-      timeout: this.timeout,
-      data: _this.context
+    bconsole.req = $.ajax({
+      url: bconsole.url + bconsole.token,
+      timeout: bconsole.timeout,
+      data: bconsole.context
     }).done(function(data) {
-      _this = _this;
-      _this.parse(data);
+      bconsole.parse(data);
       setTimeout(function() {
-        _this = _this;
-        _this.refresh();
+        bconsole.refresh();
       },
-      _this.wait);
+      bconsole.wait);
     }).fail(function(data) {
-      if (data.statusText != "timeout")
-        return;
-      _this = _this;
+      if (data.statusText != "timeout") return;
       setTimeout(function() {
-        _this = _this;
-        _this.refresh();
+        bconsole.refresh();
       },
-      _this.wait);
+      bconsole.wait);
     });
   },
 
   parse: function(res) {
     if (!res) return;
-    this.parseAll(res.messages);
-    this.context.lastId = res.lastId;
+    bconsole.parseAll(res.messages);
+    bconsole.context.lastId = res.lastId;
   },
 
   parseAll: function(messages) {
     for (key in messages) {
-      this.parseOne(messages[key]);
+      bconsole.parseOne(messages[key]);
     }
   },
 
   parseOne: function(message) {
     if (message.response) {
-      this.echo(message);
+      bconsole.echo(message);
     } else if (message.command) {
-      this.run(message);
+      bconsole.run(message);
     }
   },
 
@@ -100,21 +69,21 @@ var Browserconsole = {
       color = "#fff";
     }
 
-    this.term.echo("[[;" + color + ";#333]" + message.browser + ": " + message.response + "]");
+    bconsole.term.echo("[[;" + color + ";#333]" + message.browser + ": " + message.response + "]");
   },
 
   run: function(message) {
     try {
       var result = window.eval(message.command);
-      this.postResponse(new String(result), message.id);
+      bconsole.postResponse(new String(result), message.id);
     } catch (e) {
-      this.postResponse(new String(e), message.id);
+      bconsole.postResponse(new String(e), message.id);
     }
   },
 
   postResponse: function(response, forId) {
     $.ajax({
-      url: this.url + this.token + "/responses",
+      url: bconsole.url + bconsole.token + "/responses",
       data: JSON.stringify({
         response: new String(response),
         forId: forId
@@ -128,7 +97,7 @@ var Browserconsole = {
     if (!data) return;
     var _this = this;
     $.ajax({
-      url: _this.url + _this.token + "/commands",
+      url: bconsole.url + bconsole.token + "/commands",
       data: JSON.stringify({
         command: data
       }),
@@ -138,31 +107,30 @@ var Browserconsole = {
   },
 
   abort: function() {
-    if (this.req) {
-      this.req.abort();
+    if (bconsole.req) {
+      bconsole.req.abort();
     }
   },
 
   init: function() {
-    this.initHash();
-    this.initTerminal();
-    this.abort();
-    this.context.lastId = null;
-    this.refresh();
+    bconsole.initHash();
+    bconsole.initTerminal();
+    bconsole.abort();
+    bconsole.context.lastId = null;
+    bconsole.refresh();
   },
 
   initTerminal: function() {
-    var boundParseCommand = this.parseCommand.bind(this);
-    this.term = $('#terminal').terminal(boundParseCommand, this.terminalSettings);
+    bconsole.term = $('#terminal').terminal(bconsole.parseCommand, bconsole.terminalSettings);
   },
 
   initHash: function() {
     if (location.hash && /^#[a-z0-9]{32}$/.test(location.hash)) {
-      this.token = location.hash.substring(1);
+      bconsole.token = location.hash.substring(1);
 
     } else {
-      this.token = this.generateRandomToken();
-      location.hash = "#" + this.token;
+      bconsole.token = bconsole.generateRandomToken();
+      location.hash = "#" + bconsole.token;
     }
   },
 
@@ -174,6 +142,6 @@ var Browserconsole = {
   },
 
   stop: function() {
-    this.abort();
+    bconsole.abort();
   }
 };
