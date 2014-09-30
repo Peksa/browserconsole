@@ -10,8 +10,8 @@ var bconsole = {
   wait: 50,
 
   terminalSettings: {
-    greetings: "Welcome to browserconsole",
-    prompt: "» "
+    greetings: "            Welcome to browserconsole",
+    prompt: "            » "
   },
 
   refresh: function() {
@@ -70,7 +70,12 @@ var bconsole = {
       color = "#fff";
     }
 
-    bconsole.term.echo("[[;" + color + ";#333]" + message.browser + ": " + message.response + "]");
+    bconsole.term.echo("[[;" + color + ";#333]" + bconsole.pad(" ", 12-message.browser.length) + message.browser + ": " + message.response + "]");
+  },
+
+  pad: function(char, length) {
+    if (length < 0) return;
+    return Array(length+1).join(char);
   },
 
   run: function(message) {
