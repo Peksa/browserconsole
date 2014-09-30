@@ -84,7 +84,7 @@ var bconsole = {
 
   postResponse: function(response, forId) {
     $.ajax({
-      url: bconsole.url + "/response/ " + bconsole.token,
+      url: bconsole.url + "/response/" + bconsole.token,
       data: JSON.stringify({
         response: response + "",
         forId: forId
