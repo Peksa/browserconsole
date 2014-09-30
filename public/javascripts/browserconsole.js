@@ -85,10 +85,10 @@ var bconsole = {
   postResponse: function(response, forId) {
     $.ajax({
       url: bconsole.url + "/response/ " + bconsole.token,
-      data: {
+      data: JSON.stringify({
         response: response + "",
         forId: forId
-      },
+      }),
       type: 'POST',
       contentType: 'application/json'
     });
@@ -98,9 +98,9 @@ var bconsole = {
     if (!data) return;
     $.ajax({
       url: bconsole.url + "/request/" + bconsole.token,
-      data: {
+      data: JSON.stringify({
         command: data
-      },
+      }),
       type: 'POST',
       contentType: 'application/json'
     });
