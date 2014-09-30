@@ -5,10 +5,10 @@ GET     /                                           HTML.index
 GET     /api/subscribe/{token}                      API.subscribe
 
 # Post an eval request to other browsers
-POST    /api/request/{token}                        Application.postRequest
+POST    /api/request/{token}                        API.postRequest
 
 # Post a response to an eval request
-POST    /api/response/{token}                       Application.postResponse
+POST    /api/response/{token}                       API.postResponse
 
 
 # Map static resources from the /app/public folder to the /public path

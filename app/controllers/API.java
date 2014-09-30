@@ -26,8 +26,7 @@ import com.hazelcast.query.PredicateBuilder;
 
 public class API extends Controller
 {
-	private static HazelcastInstance hazel = Hazelcast
-			.newHazelcastInstance(null);
+	private static HazelcastInstance hazel = Hazelcast.newHazelcastInstance(null);
 	private static Parser uaParser;
 
 	static
