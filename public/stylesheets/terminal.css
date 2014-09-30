@@ -99,7 +99,6 @@
 }
 
 .terminal, .cmd {
-  font-family: FreeMono, monospace;
   color: #ccc;
   background-color: #333;
   font-size: 14px;
