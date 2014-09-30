@@ -1,8 +1,14 @@
-# Home page
-GET		/                                   	    Application.index
-GET		/{token}									Application.get
-POST	/{token}/commands							Application.postCommand
-POST	/{token}/responses							Application.postResponse
+# Main index.html
+GET     /                                           HTML.index
+
+# Subscribe to real-time updates
+GET     /api/subscribe/{token}                      API.subscribe
+
+# Post an eval request to other browsers
+POST    /api/request/{token}                        Application.postRequest
+
+# Post a response to an eval request
+POST    /api/response/{token}                       Application.postResponse
 
 
 # Map static resources from the /app/public folder to the /public path

@@ -9,7 +9,7 @@ public class Message implements Serializable, Comparable<Message>
 	public String response;
 	public String browser;
 	public String command;
-	
+
 	// Response
 	public Message(Long id, Long forId, String response, String browser)
 	{
@@ -18,14 +18,14 @@ public class Message implements Serializable, Comparable<Message>
 		this.response = response;
 		this.browser = browser;
 	}
-	
+
 	// Request
 	public Message(long id, String command)
 	{
 		this.id = id;
 		this.command = command;
 	}
-	
+
 	@Override
 	public int compareTo(Message o)
 	{

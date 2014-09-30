@@ -5,7 +5,7 @@ var bconsole = {
   },
   term: null,
   token: null,
-  url: "/",
+  url: "/api",
   timeout: 20000,
   wait: 50,
 
@@ -16,7 +16,7 @@ var bconsole = {
 
   refresh: function() {
     bconsole.req = $.ajax({
-      url: bconsole.url + bconsole.token,
+      url: bconsole.url + "/subscribe/" + bconsole.token,
       timeout: bconsole.timeout,
       data: bconsole.context
     }).done(function(data) {
@@ -74,18 +74,18 @@ var bconsole = {
 
   run: function(message) {
     try {
-      var result = window.eval(message.command);
-      bconsole.postResponse(new String(result), message.id);
+      var result = window.eval(message.command) + "";
+      bconsole.postResponse(result, message.id);
     } catch (e) {
-      bconsole.postResponse(new String(e), message.id);
+      bconsole.postResponse(e + "", message.id);
     }
   },
 
   postResponse: function(response, forId) {
     $.ajax({
-      url: bconsole.url + bconsole.token + "/responses",
+      url: bconsole.url + "/response/ " + bconsole.token,
       data: JSON.stringify({
-        response: new String(response),
+        response: response + "",
         forId: forId
       }),
       type: 'POST',
@@ -95,9 +95,8 @@ var bconsole = {
 
   parseCommand: function(data) {
     if (!data) return;
-    var _this = this;
     $.ajax({
-      url: bconsole.url + bconsole.token + "/commands",
+      url: bconsole.url + "/request/" + bconsole.token,
       data: JSON.stringify({
         command: data
       }),
