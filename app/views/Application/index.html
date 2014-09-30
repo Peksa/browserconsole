@@ -1,27 +1,27 @@
 <!doctype html>
 <html>
-    <head>
-        <title>browserconsole</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=8" />
-        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
-        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/terminal.css'}">
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Grand+Hotel|Inconsolata:400,700">
-        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-        <script src="@{'/public/javascripts/jquery-1.11.1.min.js'}" type="text/javascript" charset="UTF-8"></script>
-        <script src="@{'/public/javascripts/jquery.mousewheel-min.js'}" type="text/javascript" charset="UTF-8"></script>
-        <script src="@{'/public/javascripts/jquery.terminal-0.4.22.js'}" type="text/javascript" charset="UTF-8"></script>
-        <script src="@{'/public/javascripts/browserconsole.js'}" type="text/javascript" charset="UTF-8"></script>
-    </head>
-    <body>
-    	<div id="container">
-	    	<div id="logo">browserconsole</div>
-	    	<div id="terminal"></div>
-    	</div>
-    	<script>
-    	$(function() {
-    		bconsole.init();
-    	});
-    	</script>
-    </body>
+<head>
+  <title>browserconsole</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+  <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+  <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/terminal.css'}">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Grand+Hotel|Inconsolata:400,700">
+  <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+  <script src="@{'/public/javascripts/jquery-1.11.1.min.js'}" type="text/javascript" charset="UTF-8"></script>
+  <script src="@{'/public/javascripts/jquery.mousewheel-min.js'}" type="text/javascript" charset="UTF-8"></script>
+  <script src="@{'/public/javascripts/jquery.terminal-0.4.22.js'}" type="text/javascript" charset="UTF-8"></script>
+  <script src="@{'/public/javascripts/browserconsole.js'}" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+<div id="container">
+  <div id="logo">browserconsole</div>
+  <div id="terminal"></div>
+</div>
+<script>
+  $(function() {
+    bconsole.init();
+  });
+</script>
+</body>
 </html>
