@@ -10,8 +10,8 @@ var bconsole = {
   wait: 50,
 
   terminalSettings: {
-    greetings: "            Welcome to browserconsole",
-    prompt: "            » "
+    greetings: "Welcome to browserconsole",
+    prompt: "» "
   },
 
   refresh: function() {
@@ -69,8 +69,20 @@ var bconsole = {
     } else {
       color = "#fff";
     }
+    var browser = bconsole.htmlEncode(message.browser);
+    var response = bconsole.htmlEncode(message.response);
 
-    bconsole.term.echo("[[;" + color + ";#333]" + bconsole.pad(" ", 12-message.browser.length) + message.browser + ": " + message.response + "]");
+    bconsole.term.echo("[[;" + color + ";#333;]" + bconsole.pad(" ", 12-message.browser.length) + browser + ": " + response + "]");
+  },
+
+  htmlEncode: function(str) {
+    return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/]/g, '&#93;');
   },
 
   pad: function(char, length) {

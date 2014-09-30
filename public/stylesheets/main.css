@@ -24,11 +24,11 @@ div#logo {
 }
 
 div#terminal {
-  height: 500px;
+  height: 600px;
   margin: 0 auto 0;
   padding: 15px;
 }
 
 .prompt {
-  color: #d8b2ff;
+  color: #af7dff;
 }
