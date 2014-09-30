@@ -69,7 +69,7 @@ var bconsole = {
       color = "#fff";
     }
 
-    bconsole.term.echo("[[;" + color + "]" + message.browser + ": " + message.response + "]");
+    bconsole.term.echo("[[;" + color + ";#333]" + message.browser + ": " + message.response + "]");
   },
 
   run: function(message) {
