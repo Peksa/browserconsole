@@ -86,7 +86,7 @@ var bconsole = {
   },
 
   pad: function(char, length) {
-    if (length < 0) return;
+    if (length < 0) return "";
     return Array(length+1).join(char);
   },
 
