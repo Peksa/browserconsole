@@ -6,7 +6,7 @@ pieces of JavaScript snippets in multiple browsers and return the result to one 
 
 This can allow you to easily test some of those weird browser quirks in different browsers simultaneously.
 
-![image](https://cloud.githubusercontent.com/assets/903976/4468751/e01e1780-4903-11e4-8b0d-9fadab915198.png)
+![image](https://cloud.githubusercontent.com/assets/903976/4484548/09d9d60e-49bd-11e4-929c-2c4561456b6f.png)
 
 Demo
 ----
