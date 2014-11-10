@@ -1,5 +1,6 @@
 # Main index.html
 GET     /                                           HTML.index
+GET     /slim                                       HTML.slim
 
 # Subscribe to real-time updates
 GET     /api/subscribe/{token}                      API.subscribe

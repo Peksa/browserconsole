@@ -13,25 +13,24 @@
   <script src="@{'/public/javascripts/jquery.terminal-0.4.22.js'}" type="text/javascript" charset="UTF-8"></script>
   <script src="@{'/public/javascripts/browserconsole.js'}" type="text/javascript" charset="UTF-8"></script>
   <script src="@{'/public/javascripts/qrcode.min.js'}" type="text/javascript" charset="UTF-8"></script>
+  <style>
+    #terminal {
+      height: 0px !important;
+      padding: 0px !important;
+    }
+    .terminal .terminal-output div div, .cmd, .cmd .prompt {
+		line-height: 32pt !important;
+		font-size: 32pt !important;
+   	}
+  </style>
 </head>
 <body>
 <div id="container">
-  <div id="logo">browserconsole</div>
   <div id="terminal"></div>
-  <div id="qrcode"></div>
-  <div id="qrexplain">(Link to this page)</div>
 </div>
 <script>
   $(function() {
-    bconsole.init("#terminal", "Welcome to browserconsole");
-    new QRCode("qrcode", {
-      text: "http://browserconsole.com/#" + bconsole.token,
-      width: 128,
-      height: 128,
-      colorDark : "#333",
-      colorLight : "#fff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
+    bconsole.init("body", "");
   });
 </script>
 </body>

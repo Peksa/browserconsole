@@ -129,16 +129,17 @@ var bconsole = {
     }
   },
 
-  init: function() {
+  init: function(selector, welcomeMessage) {
+    bconsole.terminalSettings.greetings = welcomeMessage;
     bconsole.initHash();
-    bconsole.initTerminal();
+    bconsole.initTerminal(selector);
     bconsole.abort();
     bconsole.context.lastId = null;
     bconsole.refresh();
   },
 
-  initTerminal: function() {
-    bconsole.term = $('#terminal').terminal(bconsole.parseCommand, bconsole.terminalSettings);
+  initTerminal: function(selector) {
+    bconsole.term = $(selector).terminal(bconsole.parseCommand, bconsole.terminalSettings);
   },
 
   initHash: function() {

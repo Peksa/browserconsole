@@ -8,4 +8,9 @@ public class HTML extends Controller
 	{
 		render();
 	}
+	
+	public static void slim()
+	{
+		render();
+	}
 }
